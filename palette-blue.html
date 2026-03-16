@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Catalyst - Design Palette Preview</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-cream: #F0EBE1;
+            --bg-dark: #1E1E24;
+            --text-dark: #1A1A1A;
+            --text-light: #F0EBE1;
+            
+            --accent-yellow: #E8B931;
+            --accent-teal: #2BA5A0;
+            --accent-coral: #D95B43;
+            --accent-blue: #1A7DD7;
+            --neutral-grey: #9B9590;
+            
+            --border-width: 2px;
+            --border-color: #1A1A1A;
+            --border-radius: 4px;
+            --shadow-flat: 4px 4px 0px rgba(26, 26, 26, 1);
+            
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: 3.5rem; text-transform: uppercase; border-bottom: var(--border-width) solid var(--text-dark); padding-bottom: 1rem; margin-bottom: 3rem; }
+        h2 { font-size: 2.5rem; margin-top: 4rem; margin-bottom: 2rem; }
+        p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+        /* Color Swatches */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .swatch-card {
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-flat);
+            background: #fff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .swatch-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(26, 26, 26, 1);
+        }
+
+        .swatch-color { height: 120px; width: 100%; border-bottom: var(--border-width) solid var(--border-color); }
+        .swatch-info { padding: 1.5rem; }
+        .swatch-info h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .swatch-info code { font-family: monospace; color: var(--neutral-grey); background: rgba(0,0,0,0.05); padding: 0.2rem 0.4rem; border-radius: 4px;}
+
+        /* Component Examples */
+        .component-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .component-box {
+            background-color: #fff;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-flat);
+            position: relative;
+        }
+
+        .component-box.dark {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            box-shadow: 4px 4px 0px var(--accent-yellow);
+            border-color: var(--bg-dark);
+        }
+
+        .component-box.dark h3 { color: var(--text-light); }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background-color: var(--accent-teal);
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed rgba(26,26,26,0.2);
+        }
+        
+        .dark .metric-row { border-color: rgba(240,235,225,0.2); }
+
+        .metric-value { font-family: var(--font-display); font-size: 3rem; font-weight: 700; line-height: 1; }
+        .metric-label { font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--neutral-grey); }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            text-transform: uppercase;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: 2px 2px 0px var(--border-color);
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        
+        .btn:hover {
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--border-color);
+        }
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px var(--border-color);
+        }
+
+        /* Funnel simple visualization */
+        .funnel-step {
+            display: flex;
+            margin-bottom: 1rem;
+            border: var(--border-width) solid var(--border-color);
+            height: 40px;
+        }
+        .funnel-label { width: 120px; background: var(--border-color); color: #fff; display: flex; align-items: center; padding: 0 1rem; font-weight: 600; font-size: 0.875rem; }
+        .funnel-bar { display: flex; align-items: center; padding: 0 1rem; font-family: var(--font-display); font-weight: 700; }
+        .f1 { width: 100%; background: var(--accent-teal); color: #fff; }
+        .f2 { width: 65%; background: var(--accent-yellow); color: var(--text-dark); border-right: var(--border-width) solid var(--border-color); }
+        .f3 { width: 25%; background: var(--accent-coral); color: #fff; border-right: var(--border-width) solid var(--border-color); }
+
+    </style>
+</head>
+<body>
+
+    <h1>The Catalyst Design System</h1>
+    <div style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+        <a href="palette-warm.html" style="padding: 0.5rem 1rem; border: var(--border-width) solid var(--border-color); text-decoration: none; color: var(--text-dark); font-weight: 600; border-radius: var(--border-radius); background: #fff;">Warm (Original)</a>
+        <a href="palette-blue.html" style="padding: 0.5rem 1rem; border: var(--border-width) solid var(--border-color); text-decoration: none; color: var(--text-dark); font-weight: 600; border-radius: var(--border-radius); background: var(--accent-blue); color: #fff;">With Action Blue</a>
+    </div>
+
+    <p style="font-size: 1.25rem; max-width: 800px; margin-bottom: 4rem;">
+        Experimental "Analytical Warmth" aesthetic. Fuses Wonderflow's neo-brutalist heritage with the rigorous precision required for a $9.5K B2B data consulting product.
+    </p>
+
+    <h2>1. Core Palette</h2>
+    <div class="color-grid">
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--bg-cream);"></div>
+            <div class="swatch-info">
+                <h3>Canvas Cream</h3>
+                <p>Background</p>
+                <code>#F0EBE1</code>
+            </div>
+        </div>
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--bg-dark);"></div>
+            <div class="swatch-info">
+                <h3>Executive Slate</h3>
+                <p>Contrasts / Sections</p>
+                <code>#1E1E24</code>
+            </div>
+        </div>
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--accent-yellow);"></div>
+            <div class="swatch-info">
+                <h3>Catalyst Yellow</h3>
+                <p>Primary Highlight</p>
+                <code>#E8B931</code>
+            </div>
+        </div>
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--accent-teal);"></div>
+            <div class="swatch-info">
+                <h3>Data Teal</h3>
+                <p>Positive Metrics</p>
+                <code>#2BA5A0</code>
+            </div>
+        </div>
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--accent-coral);"></div>
+            <div class="swatch-info">
+                <h3>Alert Coral</h3>
+                <p>Leaks & Barriers</p>
+                <code>#D95B43</code>
+            </div>
+        </div>
+        <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--accent-blue);"></div>
+            <div class="swatch-info">
+                <h3>Action Blue</h3>
+                <p>Primary Interactions</p>
+                <code>#1A7DD7</code>
+            </div>
+        </div>
+    </div>
+
+    <h2>2. Interface Components</h2>
+    <div class="component-grid">
+        
+        <!-- Light Card -->
+        <div class="component-box">
+            <span class="tag" style="background-color: var(--accent-coral);">Leak Detected</span>
+            <h3>B5: TOFU Drop-off</h3>
+            <p>Traffic is abandoning the landing page before initiating a scroll event. Indicative of poor message-to-market match on Ad Group A.</p>
+            
+            <div class="metric-row">
+                <div>
+                    <div class="metric-label">Est. Revenue Leak</div>
+                    <div class="metric-value" style="color: var(--accent-coral);">-$18k</div>
+                    <div style="font-size: 0.85rem; color: var(--neutral-grey); margin-top: 4px;">per month</div>
+                </div>
+                <a href="#" class="btn">View Root Cause</a>
+            </div>
+        </div>
+
+        <!-- Dark Card -->
+        <div class="component-box dark">
+            <span class="tag" style="background-color: var(--accent-yellow); color: var(--text-dark); border-color: var(--bg-dark);">Opportunity</span>
+            <h3>Unit Economics Delta</h3>
+            <p>Projected LTV:CAC ratio improvement if Initiative C3.1 (Retargeting Nurture) is implemented successfully over 60 days.</p>
+            
+            <div class="metric-row">
+                <div>
+                    <div class="metric-label" style="color: rgba(240,235,225,0.7);">Current Ratio</div>
+                    <div class="metric-value">2.1x</div>
+                </div>
+                <div>
+                    <div class="metric-label" style="color: rgba(240,235,225,0.7);">Target Ratio</div>
+                    <div class="metric-value" style="color: var(--accent-teal);">4.5x</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funnel Visualization -->
+        <div class="component-box" style="grid-column: 1 / -1;">
+            <h3 style="margin-bottom: 2rem;">Visual Funnel Structure</h3>
+            
+            <div class="funnel-step">
+                <div class="funnel-label">AWARENESS</div>
+                <div class="funnel-bar f1">12,500 Visitors</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-label">CONSIDERATION</div>
+                <div class="funnel-bar f2">3,100 Leads</div>
+            </div>
+            <div class="funnel-step">
+                <div class="funnel-label">DECISION</div>
+                <div class="funnel-bar f3">145 Clients</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--neutral-grey);">
+                Notice the thinner borders (2px) and sharp corners. It retains the structure of a neo-brutalist design but feels rigorous and data-focused.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>
