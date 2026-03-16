@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Catalyst — Project Flowchart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #0a0a14;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 28px 20px 16px;
+            background: linear-gradient(135deg, #0f0f1f 0%, #121228 100%);
+            border-bottom: 1px solid #1e1e3a;
+        }
+        header h1 {
+            font-size: 26px;
+            color: #fff;
+            font-weight: 700;
+        }
+        header h1 span { color: #818cf8; }
+        header p {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        /* ─── TIMELINE BAR ─── */
+        .timeline-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 16px 40px;
+            background: #0d0d1a;
+            border-bottom: 1px solid #1a1a2e;
+            overflow-x: auto;
+        }
+        .tl-day {
+            width: 60px;
+            min-width: 60px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #555;
+            padding: 6px 0;
+            border-left: 1px solid #1a1a2e;
+            position: relative;
+        }
+        .tl-day:last-child { border-right: 1px solid #1a1a2e; }
+        .tl-day.phase-a { background: rgba(30,58,95,0.25); color: #6ea8e0; }
+        .tl-day.phase-b { background: rgba(45,27,78,0.25); color: #a78bda; }
+        .tl-day.phase-c { background: rgba(27,67,50,0.25); color: #6bc8a0; }
+        .tl-day.phase-d { background: rgba(74,29,29,0.25); color: #e07a7a; }
+
+        /* ─── MAIN FLOW ─── */
+        .flow-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 32px 28px 60px;
+            min-width: fit-content;
+            position: relative;
+        }
+
+        /* ─── PHASE COLUMN ─── */
+        .phase-col {
+            min-width: 240px;
+            max-width: 260px;
+            flex-shrink: 0;
+        }
+        .phase-header {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+        .phase-header small {
+            display: block;
+            font-weight: 400;
+            font-size: 11px;
+            letter-spacing: 0;
+            text-transform: none;
+            margin-top: 2px;
+            opacity: 0.7;
+        }
+        .phase-header.pa { background: #1e3a5f; color: #7db8e8; border: 1px solid #2d5a8f; }
+        .phase-header.pb { background: #2d1b4e; color: #b794f6; border: 1px solid #4a2d7a; }
+        .phase-header.pc { background: #1b4332; color: #6ee7b7; border: 1px solid #2d6b4f; }
+        .phase-header.pd { background: #4a1d1d; color: #fca5a5; border: 1px solid #6b2d2d; }
+
+        /* ─── CARDS ─── */
+        .card {
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            border: 1px solid;
+            transition: all 0.2s ease;
+            cursor: default;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .card .card-id {
+            font-weight: 800;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        .card .card-title {
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .card .card-meta {
+            font-size: 10px;
+            margin-top: 5px;
+            opacity: 0.6;
+            line-height: 1.5;
+        }
+        .card .card-outputs {
+            font-size: 10px;
+            margin-top: 5px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+            color: #b0d0ff;
+        }
+        .card:hover .card-outputs {
+            opacity: 0.8;
+            max-height: 200px;
+        }
+
+        /* Phase color variants */
+        .card.ca { background: #162d4a; border-color: #1e4a7a; }
+        .card.ca .card-id { color: #7db8e8; }
+        .card.cb { background: #221440; border-color: #3a2066; }
+        .card.cb .card-id { color: #b794f6; }
+        .card.cc { background: #132e24; border-color: #1d5040; }
+        .card.cc .card-id { color: #6ee7b7; }
+        .card.cd { background: #3a1515; border-color: #5a2222; }
+        .card.cd .card-id { color: #fca5a5; }
+
+        /* ─── GATES ─── */
+        .gate {
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.3);
+            text-align: center;
+        }
+        .gate .gate-icon { font-size: 16px; }
+        .gate .gate-name {
+            font-weight: 800;
+            font-size: 13px;
+            color: #fbbf24;
+            margin-top: 2px;
+        }
+        .gate .gate-info {
+            font-size: 10px;
+            color: #b8953a;
+            margin-top: 3px;
+        }
+
+        /* ─── CONNECTOR ARROWS ─── */
+        .arrow-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            padding-top: 50px;
+            flex-shrink: 0;
+        }
+        .arrow-main {
+            font-size: 28px;
+            color: #333;
+            line-height: 1;
+        }
+        .arrow-label {
+            font-size: 9px;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            margin-top: 8px;
+        }
+
+        /* ─── DEPENDENCY LINES (inside card) ─── */
+        .dep-badge {
+            display: inline-block;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            background: rgba(129,140,248,0.15);
+            color: #818cf8;
+            margin-right: 3px;
+            margin-top: 3px;
+        }
+
+        /* ─── FINAL PACKAGE ─── */
+        .final-pkg {
+            min-width: 220px;
+            max-width: 240px;
+            padding: 18px 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #064e3b 0%, #052e22 100%);
+            border: 1px solid #34d399;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .final-pkg .pkg-icon { font-size: 28px; }
+        .final-pkg .pkg-title {
+            font-weight: 800;
+            font-size: 15px;
+            color: #6ee7b7;
+            margin-top: 6px;
+        }
+        .final-pkg .pkg-items {
+            font-size: 11px;
+            color: #9cc;
+            margin-top: 8px;
+            line-height: 1.7;
+        }
+
+        /* ─── T2 BRIDGE ─── */
+        .t2-section {
+            min-width: 160px;
+            margin-top: 40px;
+        }
+        .t2-header {
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #818cf8;
+            padding: 6px 0;
+            border-bottom: 1px solid #818cf840;
+            margin-bottom: 8px;
+        }
+        .t2-opt {
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: #1a1a2e;
+            border: 1px solid #2a2a44;
+            margin-bottom: 4px;
+            font-size: 11px;
+            text-align: center;
+            color: #c4b5fd;
+        }
+
+        /* ─── INTERNAL ARROW (between cards in a column) ─── */
+        .inner-arrow {
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+            padding: 1px 0;
+        }
+
+        /* ─── DEPENDENCY NOTE ─── */
+        .dep-note {
+            font-size: 9px;
+            color: #818cf8;
+            text-align: center;
+            padding: 2px 0;
+            opacity: 0.6;
+        }
+
+        /* ─── LEGEND ─── */
+        .legend {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 20px 24px;
+            background: #0f0f1f;
+            border: 1px solid #1e1e3a;
+            border-radius: 10px;
+        }
+        .legend h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+        .legend-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        /* ─── CROSS-DEP TABLE ─── */
+        .deps-table {
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 20px 24px;
+            background: #0f0f1f;
+            border: 1px solid #1e1e3a;
+            border-radius: 10px;
+        }
+        .deps-table h3 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .deps-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .deps-table th {
+            text-align: left;
+            font-size: 11px;
+            color: #888;
+            padding: 6px 8px;
+            border-bottom: 1px solid #222;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .deps-table td {
+            font-size: 12px;
+            padding: 6px 8px;
+            border-bottom: 1px solid #1a1a2e;
+            color: #bbb;
+        }
+        .deps-table .from { color: #818cf8; font-weight: 600; }
+        .deps-table .to { color: #34d399; font-weight: 600; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #333;
+            font-size: 11px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>The Catalyst — <span>Project Flowchart</span></h1>
+    <p>Operational execution map · 4 phases · 23 cards · 3 gates · 15 business days</p>
+</header>
+
+<!-- TIMELINE BAR -->
+<div class="timeline-bar">
+    <div class="tl-day phase-a">D0</div>
+    <div class="tl-day phase-a">D1</div>
+    <div class="tl-day phase-b">D2</div>
+    <div class="tl-day phase-b">D3</div>
+    <div class="tl-day phase-b">D4</div>
+    <div class="tl-day phase-b">D5</div>
+    <div class="tl-day phase-b">D6</div>
+    <div class="tl-day phase-b">D7</div>
+    <div class="tl-day phase-c">D8</div>
+    <div class="tl-day phase-c">D9</div>
+    <div class="tl-day phase-c">D10</div>
+    <div class="tl-day phase-c">D11</div>
+    <div class="tl-day phase-c">D12</div>
+    <div class="tl-day phase-d">D13</div>
+    <div class="tl-day phase-d">D14</div>
+    <div class="tl-day phase-d">D15</div>
+</div>
+
+<!-- MAIN FLOW -->
+<div class="flow-container">
+
+    <!-- ═══ PHASE A ═══ -->
+    <div class="phase-col">
+        <div class="phase-header pa">🅰 Phase A<small>Onboarding · D0–D1</small></div>
+
+        <div class="card ca">
+            <div class="card-id">A0</div>
+            <div class="card-title">Onboarding DoD</div>
+            <div class="card-meta">✦ PM · Fit check + access gate</div>
+            <div class="card-outputs">→ Fit confirmed, access documented</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card ca">
+            <div class="card-id">A1</div>
+            <div class="card-title">Contract + Payment</div>
+            <div class="card-meta">✦ PM · Invoice + SoW + Agreement</div>
+            <div class="card-outputs">→ Payment confirmed, contracts signed</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card ca">
+            <div class="card-id">A2</div>
+            <div class="card-title">Project Environment</div>
+            <div class="card-meta">✦ PM · Drive + Tracker + INDEX + Portal</div>
+            <div class="card-outputs">→ Workspace fully set up</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card ca">
+            <div class="card-id">A3</div>
+            <div class="card-title">Onboarding Pack</div>
+            <div class="card-meta">✦ PM · Welcome email + rules</div>
+            <div class="card-outputs">→ Brief link + access requests + portal + working rules sent</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card ca">
+            <div class="card-id">A4</div>
+            <div class="card-title">Brief Form</div>
+            <div class="card-meta">✦ Client · 10-15 min questionnaire</div>
+            <div class="card-outputs">→ Filled brief + asset links verified</div>
+        </div>
+    </div>
+
+    <!-- ARROW A → B -->
+    <div class="arrow-col">
+        <div class="arrow-main">⟹</div>
+    </div>
+
+    <!-- ═══ PHASE B ═══ -->
+    <div class="phase-col" style="min-width: 260px; max-width: 280px;">
+        <div class="phase-header pb">🅱 Phase B<small>Discovery · D2–D7</small></div>
+
+        <div class="gate">
+            <div class="gate-icon">⚑</div>
+            <div class="gate-name">B0 · Discovery Gate</div>
+            <div class="gate-info">Entry check: Payment + Brief + Data Access</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cb">
+            <div class="card-id">B1</div>
+            <div class="card-title">Access Review + Quick Scan + Hypotheses</div>
+            <div class="card-meta">✦ Strategist · D2–D3</div>
+            <div class="card-outputs">
+                → Data Snapshot<br>
+                → Quick Scan Sheet (GA4/Ads/CRM/Web/Market)<br>
+                → Hypothesis Pack v1<br>
+                → Loom 5-7 min
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="gate">
+            <div class="gate-icon">⚑</div>
+            <div class="gate-name">GATE 1 · Senior Review</div>
+            <div class="gate-info">14 checks · Senior Strategist · 30-60 min</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cb">
+            <div class="card-id">B2</div>
+            <div class="card-title">Hypotheses Agreement</div>
+            <div class="card-meta">✦ Client + Strategist · D3–D4 · Async 24-48h</div>
+            <div class="card-outputs">→ HP v1.1 approved + Decisions Log</div>
+        </div>
+        <div class="inner-arrow">↓ ↓ ↓</div>
+
+        <div style="display:flex; gap:4px;">
+            <div class="card cb" style="flex:1;">
+                <div class="card-id">B3</div>
+                <div class="card-title">Competitor Snapshot</div>
+                <div class="card-meta">✦ Strat · D3–D5</div>
+                <div class="card-outputs">→ Grid ×3 + slides</div>
+            </div>
+            <div class="card cb" style="flex:1;">
+                <div class="card-id">B4</div>
+                <div class="card-title">Barriers → Messages</div>
+                <div class="card-meta">✦ Strat · D4–D5</div>
+                <div class="card-outputs">→ ≤10 barriers, top-5</div>
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cb">
+            <div class="card-id">B5</div>
+            <div class="card-title">Leak Map + Quick Wins</div>
+            <div class="card-meta">✦ Strategist · D4–D6</div>
+            <div class="card-outputs">→ 1-page Leak Map + 3-5 quick fixes → Backlog</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cb">
+            <div class="card-id">B6</div>
+            <div class="card-title">Unit Economics</div>
+            <div class="card-meta">✦ Strategist · D6</div>
+            <div class="card-outputs">
+                → Lever model (min/likely/max)<br>
+                → Gate KPIs
+                <br><span class="dep-badge">← B1</span><span class="dep-badge">← B5</span>
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cb">
+            <div class="card-id">B7</div>
+            <div class="card-title">Discovery Summary</div>
+            <div class="card-meta">✦ Strategist · D7</div>
+            <div class="card-outputs">
+                → 2 slides: What We Learned → So What
+                <br><span class="dep-badge">← all B</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARROW B → C -->
+    <div class="arrow-col">
+        <div class="arrow-main">⟹</div>
+    </div>
+
+    <!-- ═══ PHASE C ═══ -->
+    <div class="phase-col">
+        <div class="phase-header pc">🅲 Phase C<small>Plan Build · D8–D12</small></div>
+
+        <div class="card cc">
+            <div class="card-id">C1</div>
+            <div class="card-title">Root Cause Analysis</div>
+            <div class="card-meta">✦ Strategist · D8</div>
+            <div class="card-outputs">
+                → 1-2 root causes + target metrics
+                <br><span class="dep-badge">← B7</span><span class="dep-badge">← B5</span><span class="dep-badge">← B6</span>
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cc">
+            <div class="card-id">C2</div>
+            <div class="card-title">Options Matrix</div>
+            <div class="card-meta">✦ Strategist · D8–D9</div>
+            <div class="card-outputs">
+                → 2-3 options scored<br>
+                → Recommendation
+                <br><span class="dep-badge">← C1</span><span class="dep-badge">← B4</span><span class="dep-badge">← B3</span>
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="gate">
+            <div class="gate-icon">⚑</div>
+            <div class="gate-name">GATE 2 · Senior Review</div>
+            <div class="gate-info">17 checks · Senior Strategist · 30-60 min</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cc">
+            <div class="card-id">C3</div>
+            <div class="card-title">Initiative Cards (3-5)</div>
+            <div class="card-meta">✦ Strategist · D9–D10</div>
+            <div class="card-outputs">→ Hypothesis / KPI / Owner / DoD / Timeline</div>
+        </div>
+        <div class="inner-arrow">↓ ↓ ↓</div>
+
+        <div class="card cc">
+            <div class="card-id">C4</div>
+            <div class="card-title">Funnel Map</div>
+            <div class="card-meta">✦ Strategist + Designer · D10–D11</div>
+            <div class="card-outputs">→ TOFU/MOFU/BOFU + events + thresholds (PDF/PNG)</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cc">
+            <div class="card-id">C5</div>
+            <div class="card-title">Deck Assembly</div>
+            <div class="card-meta">✦ Strategist + Designer · D10–D11</div>
+            <div class="card-outputs">→ 20-30 slides: Context → Findings → Plan → Execution</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cc">
+            <div class="card-id">C6</div>
+            <div class="card-title">Tracker Population</div>
+            <div class="card-meta">✦ PM · D11–D12</div>
+            <div class="card-outputs">→ All tasks: Backlog + This Week + By Owner</div>
+        </div>
+    </div>
+
+    <!-- ARROW C → D -->
+    <div class="arrow-col">
+        <div class="arrow-main">⟹</div>
+    </div>
+
+    <!-- ═══ PHASE D ═══ -->
+    <div class="phase-col">
+        <div class="phase-header pd">🅳 Phase D<small>Finalization · D13–D15</small></div>
+
+        <div class="card cd">
+            <div class="card-id">D1</div>
+            <div class="card-title">QA & Proofread</div>
+            <div class="card-meta">✦ PM + Strategist · D13</div>
+            <div class="card-outputs">
+                → 27-item checklist complete<br>
+                → Deck v2 (QA'd)
+                <br><span class="dep-badge">← C5</span><span class="dep-badge">← C6</span>
+            </div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cd">
+            <div class="card-id">D2</div>
+            <div class="card-title">Pre-read Package</div>
+            <div class="card-meta">✦ PM · D13</div>
+            <div class="card-outputs">→ Loom 7-10 min + Deck v2 + Tracker + INDEX shared</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cd">
+            <div class="card-id">D3</div>
+            <div class="card-title">Final Walkthrough</div>
+            <div class="card-meta">✦ Strategist · D14</div>
+            <div class="card-outputs">→ Loom 12-15 min OR call 60 min</div>
+        </div>
+        <div class="inner-arrow">↓</div>
+
+        <div class="card cd">
+            <div class="card-id">D4</div>
+            <div class="card-title">Hand-off + T2 Bridge</div>
+            <div class="card-meta">✦ Strategist + PM · D15</div>
+            <div class="card-outputs">→ Final Package + INDEX + T2 options</div>
+        </div>
+    </div>
+
+    <!-- ARROW D → FINAL -->
+    <div class="arrow-col">
+        <div class="arrow-main">⟹</div>
+    </div>
+
+    <!-- ═══ FINAL PACKAGE + T2 ═══ -->
+    <div>
+        <div class="final-pkg">
+            <div class="pkg-icon">📦</div>
+            <div class="pkg-title">Final Package</div>
+            <div class="pkg-items">
+                Deck vFinal<br>
+                Funnel Map (PDF/PNG)<br>
+                Action Tracker<br>
+                Walkthrough Recording<br>
+                INDEX (single entry point)
+            </div>
+        </div>
+
+        <div style="text-align:center; padding: 10px 0;">
+            <div class="arrow-main" style="color:#333;">↓</div>
+        </div>
+
+        <div class="t2-section">
+            <div class="t2-header">🔮 T2 Bridge</div>
+            <div class="t2-opt">Self-Execute<br><span style="font-size:10px;color:#888;">Client uses Tracker</span></div>
+            <div class="t2-opt">Implementation<br><span style="font-size:10px;color:#888;">WF executes plan</span></div>
+            <div class="t2-opt">Advisory<br><span style="font-size:10px;color:#888;">Ongoing support</span></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+    <h3>Legend</h3>
+    <div class="legend-grid">
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:#1e3a5f; border:1px solid #2d5a8f;"></div>
+            Phase A · Onboarding (D0–D1)
+        </div>
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:#2d1b4e; border:1px solid #4a2d7a;"></div>
+            Phase B · Discovery (D2–D7)
+        </div>
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:#1b4332; border:1px solid #2d6b4f;"></div>
+            Phase C · Plan Build (D8–D12)
+        </div>
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:#4a1d1d; border:1px solid #6b2d2d;"></div>
+            Phase D · Finalization (D13–D15)
+        </div>
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:rgba(251,191,36,0.15); border:1px solid rgba(251,191,36,0.4);"></div>
+            ⚑ Gate / Review checkpoint
+        </div>
+        <div class="legend-item">
+            <div class="legend-swatch" style="background:#064e3b; border:1px solid #34d399;"></div>
+            📦 Final deliverable
+        </div>
+        <div class="legend-item" style="grid-column: span 2;">
+            <span class="dep-badge" style="font-size:11px;">← B5</span>
+            Cross-phase dependency (hover card to see)
+        </div>
+    </div>
+</div>
+
+<!-- CROSS-PHASE DEPENDENCIES TABLE -->
+<div class="deps-table">
+    <h3>Cross-Phase Dependencies</h3>
+    <table>
+        <thead>
+            <tr><th>From</th><th>To</th><th>What's Passed</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="from">A4 Brief</td><td class="to">B0 Gate</td><td>Brief + access status → entry check</td></tr>
+            <tr><td class="from">B1 Quick Scan</td><td class="to">B3 / B4 / B5</td><td>Metrics + findings → parallel analysis</td></tr>
+            <tr><td class="from">B5 Leak Map</td><td class="to">C1 Root Cause</td><td>Leak records + quick wins</td></tr>
+            <tr><td class="from">B6 Unit Econ</td><td class="to">C1 Root Cause</td><td>Lever model + 3 scenarios</td></tr>
+            <tr><td class="from">B3 Competitors</td><td class="to">C2 Options</td><td>Competitor gaps → option framing</td></tr>
+            <tr><td class="from">B4 Barriers</td><td class="to">C2 Options</td><td>Top-5 barriers → initiative design</td></tr>
+            <tr><td class="from">C3 Initiatives</td><td class="to">C4 / C5 / C6</td><td>Cards → Funnel + Deck + Tracker (parallel)</td></tr>
+            <tr><td class="from">C5 Deck v1</td><td class="to">D1 QA</td><td>All slides → 27-item proofread</td></tr>
+            <tr><td class="from">C6 Tracker</td><td class="to">D1 QA</td><td>All tasks → reconciliation check</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>
+    The Catalyst — Wonderflow · Operational Flowchart · 2026
+</footer>
+
+</body>
+</html>
