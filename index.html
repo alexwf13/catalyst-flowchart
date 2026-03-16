@@ -21,6 +21,7 @@
             padding: 28px 20px 16px;
             background: linear-gradient(135deg, #0f0f1f 0%, #121228 100%);
             border-bottom: 1px solid #1e1e3a;
+            position: relative;
         }
         header h1 {
             font-size: 26px;
@@ -32,6 +33,34 @@
             font-size: 13px;
             color: #666;
             margin-top: 6px;
+        }
+
+        /* ─── LANG SWITCHER ─── */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            display: flex;
+            gap: 0;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        .lang-btn {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #1a1a2e;
+            color: #666;
+            border: none;
+            transition: all 0.2s ease;
+            letter-spacing: 1px;
+        }
+        .lang-btn:hover { color: #aaa; }
+        .lang-btn.active {
+            background: #818cf8;
+            color: #fff;
         }
 
         /* ─── TIMELINE BAR ─── */
@@ -147,7 +176,6 @@
             max-height: 200px;
         }
 
-        /* Phase color variants */
         .card.ca { background: #162d4a; border-color: #1e4a7a; }
         .card.ca .card-id { color: #7db8e8; }
         .card.cb { background: #221440; border-color: #3a2066; }
@@ -194,17 +222,7 @@
             color: #333;
             line-height: 1;
         }
-        .arrow-label {
-            font-size: 9px;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            writing-mode: vertical-lr;
-            text-orientation: mixed;
-            margin-top: 8px;
-        }
 
-        /* ─── DEPENDENCY LINES (inside card) ─── */
         .dep-badge {
             display: inline-block;
             font-size: 9px;
@@ -268,21 +286,11 @@
             color: #c4b5fd;
         }
 
-        /* ─── INTERNAL ARROW (between cards in a column) ─── */
         .inner-arrow {
             text-align: center;
             font-size: 14px;
             color: #333;
             padding: 1px 0;
-        }
-
-        /* ─── DEPENDENCY NOTE ─── */
-        .dep-note {
-            font-size: 9px;
-            color: #818cf8;
-            text-align: center;
-            padding: 2px 0;
-            opacity: 0.6;
         }
 
         /* ─── LEGEND ─── */
@@ -363,14 +371,29 @@
             color: #333;
             font-size: 11px;
         }
+
+        /* ─── LANG VISIBILITY ─── */
+        [data-lang-ru] { display: none; }
+        body.lang-ru [data-lang-en] { display: none; }
+        body.lang-ru [data-lang-ru] { display: inline; }
+        body.lang-ru div[data-lang-en] { display: none; }
+        body.lang-ru div[data-lang-ru] { display: block; }
+        body.lang-ru span[data-lang-ru] { display: inline; }
     </style>
 </head>
 
 <body>
 
 <header>
-    <h1>The Catalyst — <span>Project Flowchart</span></h1>
-    <p>Operational execution map · 4 phases · 23 cards · 3 gates · 15 business days</p>
+    <h1>The Catalyst — <span data-lang-en>Project Flowchart</span><span data-lang-ru>Карта проекта</span></h1>
+    <p>
+        <span data-lang-en>Operational execution map · 4 phases · 23 cards · 3 gates · 15 business days</span>
+        <span data-lang-ru>Операционная карта выполнения · 4 фазы · 23 карточки · 3 контрольные точки · 15 рабочих дней</span>
+    </p>
+    <div class="lang-switch">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-ru" onclick="setLang('ru')">RU</button>
+    </div>
 </header>
 
 <!-- TIMELINE BAR -->
@@ -398,123 +421,224 @@
 
     <!-- ═══ PHASE A ═══ -->
     <div class="phase-col">
-        <div class="phase-header pa">🅰 Phase A<small>Onboarding · D0–D1</small></div>
+        <div class="phase-header pa">
+            🅰 <span data-lang-en>Phase A</span><span data-lang-ru>Фаза A</span>
+            <small><span data-lang-en>Onboarding · D0–D1</span><span data-lang-ru>Онбординг · D0–D1</span></small>
+        </div>
 
         <div class="card ca">
             <div class="card-id">A0</div>
-            <div class="card-title">Onboarding DoD</div>
-            <div class="card-meta">✦ PM · Fit check + access gate</div>
-            <div class="card-outputs">→ Fit confirmed, access documented</div>
+            <div class="card-title">
+                <span data-lang-en>Onboarding DoD</span>
+                <span data-lang-ru>Чеклист готовности</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · Fit check + access gate</span>
+                <span data-lang-ru>✦ PM · Проверка соответствия + доступы</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Fit confirmed, access documented</span>
+                <span data-lang-ru>→ Соответствие подтверждено, доступы задокументированы</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card ca">
             <div class="card-id">A1</div>
-            <div class="card-title">Contract + Payment</div>
-            <div class="card-meta">✦ PM · Invoice + SoW + Agreement</div>
-            <div class="card-outputs">→ Payment confirmed, contracts signed</div>
+            <div class="card-title">
+                <span data-lang-en>Contract + Payment</span>
+                <span data-lang-ru>Договор + Оплата</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · Invoice + SoW + Agreement</span>
+                <span data-lang-ru>✦ PM · Счёт + ТЗ + Договор</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Payment confirmed, contracts signed</span>
+                <span data-lang-ru>→ Оплата подтверждена, договоры подписаны</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card ca">
             <div class="card-id">A2</div>
-            <div class="card-title">Project Environment</div>
-            <div class="card-meta">✦ PM · Drive + Tracker + INDEX + Portal</div>
-            <div class="card-outputs">→ Workspace fully set up</div>
+            <div class="card-title">
+                <span data-lang-en>Project Environment</span>
+                <span data-lang-ru>Рабочая среда проекта</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · Drive + Tracker + INDEX + Portal</span>
+                <span data-lang-ru>✦ PM · Drive + Трекер + INDEX + Портал</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Workspace fully set up</span>
+                <span data-lang-ru>→ Рабочее пространство полностью настроено</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card ca">
             <div class="card-id">A3</div>
-            <div class="card-title">Onboarding Pack</div>
-            <div class="card-meta">✦ PM · Welcome email + rules</div>
-            <div class="card-outputs">→ Brief link + access requests + portal + working rules sent</div>
+            <div class="card-title">
+                <span data-lang-en>Onboarding Pack</span>
+                <span data-lang-ru>Онбординг-пакет</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · Welcome email + rules</span>
+                <span data-lang-ru>✦ PM · Приветственное письмо + правила</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Brief link + access requests + portal + working rules sent</span>
+                <span data-lang-ru>→ Ссылка на бриф + запросы доступов + портал + правила работы отправлены</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card ca">
             <div class="card-id">A4</div>
-            <div class="card-title">Brief Form</div>
-            <div class="card-meta">✦ Client · 10-15 min questionnaire</div>
-            <div class="card-outputs">→ Filled brief + asset links verified</div>
+            <div class="card-title">
+                <span data-lang-en>Brief Form</span>
+                <span data-lang-ru>Бриф</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Client · 10-15 min questionnaire</span>
+                <span data-lang-ru>✦ Клиент · Анкета 10-15 мин</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Filled brief + asset links verified</span>
+                <span data-lang-ru>→ Заполненный бриф + ссылки на ресурсы проверены</span>
+            </div>
         </div>
     </div>
 
     <!-- ARROW A → B -->
-    <div class="arrow-col">
-        <div class="arrow-main">⟹</div>
-    </div>
+    <div class="arrow-col"><div class="arrow-main">⟹</div></div>
 
     <!-- ═══ PHASE B ═══ -->
     <div class="phase-col" style="min-width: 260px; max-width: 280px;">
-        <div class="phase-header pb">🅱 Phase B<small>Discovery · D2–D7</small></div>
+        <div class="phase-header pb">
+            🅱 <span data-lang-en>Phase B</span><span data-lang-ru>Фаза B</span>
+            <small><span data-lang-en>Discovery · D2–D7</span><span data-lang-ru>Диагностика · D2–D7</span></small>
+        </div>
 
         <div class="gate">
             <div class="gate-icon">⚑</div>
-            <div class="gate-name">B0 · Discovery Gate</div>
-            <div class="gate-info">Entry check: Payment + Brief + Data Access</div>
+            <div class="gate-name">B0 · <span data-lang-en>Discovery Gate</span><span data-lang-ru>Входной контроль</span></div>
+            <div class="gate-info">
+                <span data-lang-en>Entry check: Payment + Brief + Data Access</span>
+                <span data-lang-ru>Проверка входа: Оплата + Бриф + Доступ к данным</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cb">
             <div class="card-id">B1</div>
-            <div class="card-title">Access Review + Quick Scan + Hypotheses</div>
-            <div class="card-meta">✦ Strategist · D2–D3</div>
+            <div class="card-title">
+                <span data-lang-en>Access Review + Quick Scan + Hypotheses</span>
+                <span data-lang-ru>Аудит доступов + Экспресс-анализ + Гипотезы</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D2–D3</span>
+                <span data-lang-ru>✦ Стратег · D2–D3</span>
+            </div>
             <div class="card-outputs">
-                → Data Snapshot<br>
-                → Quick Scan Sheet (GA4/Ads/CRM/Web/Market)<br>
-                → Hypothesis Pack v1<br>
-                → Loom 5-7 min
+                <span data-lang-en>→ Data Snapshot · Quick Scan Sheet · Hypothesis Pack v1 · Loom 5-7 min</span>
+                <span data-lang-ru>→ Срез данных · Экспресс-анализ · Пакет гипотез v1 · Loom 5-7 мин</span>
             </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="gate">
             <div class="gate-icon">⚑</div>
-            <div class="gate-name">GATE 1 · Senior Review</div>
-            <div class="gate-info">14 checks · Senior Strategist · 30-60 min</div>
+            <div class="gate-name">GATE 1 · <span data-lang-en>Senior Review</span><span data-lang-ru>Ревью старшего стратега</span></div>
+            <div class="gate-info">
+                <span data-lang-en>14 checks · Senior Strategist · 30-60 min</span>
+                <span data-lang-ru>14 проверок · Старший стратег · 30-60 мин</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cb">
             <div class="card-id">B2</div>
-            <div class="card-title">Hypotheses Agreement</div>
-            <div class="card-meta">✦ Client + Strategist · D3–D4 · Async 24-48h</div>
-            <div class="card-outputs">→ HP v1.1 approved + Decisions Log</div>
+            <div class="card-title">
+                <span data-lang-en>Hypotheses Agreement</span>
+                <span data-lang-ru>Согласование гипотез</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Client + Strategist · D3–D4 · Async 24-48h</span>
+                <span data-lang-ru>✦ Клиент + Стратег · D3–D4 · Асинхронно 24-48ч</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ HP v1.1 approved + Decisions Log</span>
+                <span data-lang-ru>→ Гипотезы v1.1 согласованы + Лог решений</span>
+            </div>
         </div>
         <div class="inner-arrow">↓ ↓ ↓</div>
 
         <div style="display:flex; gap:4px;">
             <div class="card cb" style="flex:1;">
                 <div class="card-id">B3</div>
-                <div class="card-title">Competitor Snapshot</div>
-                <div class="card-meta">✦ Strat · D3–D5</div>
-                <div class="card-outputs">→ Grid ×3 + slides</div>
+                <div class="card-title">
+                    <span data-lang-en>Competitor Snapshot</span>
+                    <span data-lang-ru>Анализ конкурентов</span>
+                </div>
+                <div class="card-meta">
+                    <span data-lang-en>✦ Strat · D3–D5</span>
+                    <span data-lang-ru>✦ Стратег · D3–D5</span>
+                </div>
+                <div class="card-outputs">
+                    <span data-lang-en>→ Grid ×3 + slides</span>
+                    <span data-lang-ru>→ Сетка ×3 + слайды</span>
+                </div>
             </div>
             <div class="card cb" style="flex:1;">
                 <div class="card-id">B4</div>
-                <div class="card-title">Barriers → Messages</div>
-                <div class="card-meta">✦ Strat · D4–D5</div>
-                <div class="card-outputs">→ ≤10 barriers, top-5</div>
+                <div class="card-title">
+                    <span data-lang-en>Barriers → Messages</span>
+                    <span data-lang-ru>Барьеры → Месседжи</span>
+                </div>
+                <div class="card-meta">
+                    <span data-lang-en>✦ Strat · D4–D5</span>
+                    <span data-lang-ru>✦ Стратег · D4–D5</span>
+                </div>
+                <div class="card-outputs">
+                    <span data-lang-en>→ ≤10 barriers, top-5</span>
+                    <span data-lang-ru>→ ≤10 барьеров, топ-5</span>
+                </div>
             </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cb">
             <div class="card-id">B5</div>
-            <div class="card-title">Leak Map + Quick Wins</div>
-            <div class="card-meta">✦ Strategist · D4–D6</div>
-            <div class="card-outputs">→ 1-page Leak Map + 3-5 quick fixes → Backlog</div>
+            <div class="card-title">
+                <span data-lang-en>Leak Map + Quick Wins</span>
+                <span data-lang-ru>Карта утечек + Быстрые победы</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D4–D6</span>
+                <span data-lang-ru>✦ Стратег · D4–D6</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ 1-page Leak Map + 3-5 quick fixes → Backlog</span>
+                <span data-lang-ru>→ 1-страничная карта утечек + 3-5 быстрых исправлений → Бэклог</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cb">
             <div class="card-id">B6</div>
-            <div class="card-title">Unit Economics</div>
-            <div class="card-meta">✦ Strategist · D6</div>
+            <div class="card-title">
+                <span data-lang-en>Unit Economics</span>
+                <span data-lang-ru>Юнит-экономика</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D6</span>
+                <span data-lang-ru>✦ Стратег · D6</span>
+            </div>
             <div class="card-outputs">
-                → Lever model (min/likely/max)<br>
-                → Gate KPIs
+                <span data-lang-en>→ Lever model (min/likely/max) · Gate KPIs</span>
+                <span data-lang-ru>→ Модель рычагов (мин/вероятно/макс) · KPI контрольных точек</span>
                 <br><span class="dep-badge">← B1</span><span class="dep-badge">← B5</span>
             </div>
         </div>
@@ -522,30 +646,45 @@
 
         <div class="card cb">
             <div class="card-id">B7</div>
-            <div class="card-title">Discovery Summary</div>
-            <div class="card-meta">✦ Strategist · D7</div>
+            <div class="card-title">
+                <span data-lang-en>Discovery Summary</span>
+                <span data-lang-ru>Итоги диагностики</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D7</span>
+                <span data-lang-ru>✦ Стратег · D7</span>
+            </div>
             <div class="card-outputs">
-                → 2 slides: What We Learned → So What
+                <span data-lang-en>→ 2 slides: What We Learned → So What</span>
+                <span data-lang-ru>→ 2 слайда: Что узнали → Что это значит</span>
                 <br><span class="dep-badge">← all B</span>
             </div>
         </div>
     </div>
 
     <!-- ARROW B → C -->
-    <div class="arrow-col">
-        <div class="arrow-main">⟹</div>
-    </div>
+    <div class="arrow-col"><div class="arrow-main">⟹</div></div>
 
     <!-- ═══ PHASE C ═══ -->
     <div class="phase-col">
-        <div class="phase-header pc">🅲 Phase C<small>Plan Build · D8–D12</small></div>
+        <div class="phase-header pc">
+            🅲 <span data-lang-en>Phase C</span><span data-lang-ru>Фаза C</span>
+            <small><span data-lang-en>Plan Build · D8–D12</span><span data-lang-ru>Стратегия и план · D8–D12</span></small>
+        </div>
 
         <div class="card cc">
             <div class="card-id">C1</div>
-            <div class="card-title">Root Cause Analysis</div>
-            <div class="card-meta">✦ Strategist · D8</div>
+            <div class="card-title">
+                <span data-lang-en>Root Cause Analysis</span>
+                <span data-lang-ru>Анализ корневых причин</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D8</span>
+                <span data-lang-ru>✦ Стратег · D8</span>
+            </div>
             <div class="card-outputs">
-                → 1-2 root causes + target metrics
+                <span data-lang-en>→ 1-2 root causes + target metrics</span>
+                <span data-lang-ru>→ 1-2 корневые причины + целевые метрики</span>
                 <br><span class="dep-badge">← B7</span><span class="dep-badge">← B5</span><span class="dep-badge">← B6</span>
             </div>
         </div>
@@ -553,11 +692,17 @@
 
         <div class="card cc">
             <div class="card-id">C2</div>
-            <div class="card-title">Options Matrix</div>
-            <div class="card-meta">✦ Strategist · D8–D9</div>
+            <div class="card-title">
+                <span data-lang-en>Options Matrix</span>
+                <span data-lang-ru>Матрица опций</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D8–D9</span>
+                <span data-lang-ru>✦ Стратег · D8–D9</span>
+            </div>
             <div class="card-outputs">
-                → 2-3 options scored<br>
-                → Recommendation
+                <span data-lang-en>→ 2-3 options scored · Recommendation</span>
+                <span data-lang-ru>→ 2-3 варианта с оценкой · Рекомендация</span>
                 <br><span class="dep-badge">← C1</span><span class="dep-badge">← B4</span><span class="dep-badge">← B3</span>
             </div>
         </div>
@@ -565,59 +710,105 @@
 
         <div class="gate">
             <div class="gate-icon">⚑</div>
-            <div class="gate-name">GATE 2 · Senior Review</div>
-            <div class="gate-info">17 checks · Senior Strategist · 30-60 min</div>
+            <div class="gate-name">GATE 2 · <span data-lang-en>Senior Review</span><span data-lang-ru>Ревью старшего стратега</span></div>
+            <div class="gate-info">
+                <span data-lang-en>17 checks · Senior Strategist · 30-60 min</span>
+                <span data-lang-ru>17 проверок · Старший стратег · 30-60 мин</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cc">
             <div class="card-id">C3</div>
-            <div class="card-title">Initiative Cards (3-5)</div>
-            <div class="card-meta">✦ Strategist · D9–D10</div>
-            <div class="card-outputs">→ Hypothesis / KPI / Owner / DoD / Timeline</div>
+            <div class="card-title">
+                <span data-lang-en>Initiative Cards (3-5)</span>
+                <span data-lang-ru>Карточки инициатив (3-5)</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D9–D10</span>
+                <span data-lang-ru>✦ Стратег · D9–D10</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Hypothesis / KPI / Owner / DoD / Timeline</span>
+                <span data-lang-ru>→ Гипотеза / KPI / Ответственный / DoD / Сроки</span>
+            </div>
         </div>
         <div class="inner-arrow">↓ ↓ ↓</div>
 
         <div class="card cc">
             <div class="card-id">C4</div>
-            <div class="card-title">Funnel Map</div>
-            <div class="card-meta">✦ Strategist + Designer · D10–D11</div>
-            <div class="card-outputs">→ TOFU/MOFU/BOFU + events + thresholds (PDF/PNG)</div>
+            <div class="card-title">
+                <span data-lang-en>Funnel Map</span>
+                <span data-lang-ru>Карта воронки</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist + Designer · D10–D11</span>
+                <span data-lang-ru>✦ Стратег + Дизайнер · D10–D11</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ TOFU/MOFU/BOFU + events + thresholds (PDF/PNG)</span>
+                <span data-lang-ru>→ TOFU/MOFU/BOFU + события + пороговые значения (PDF/PNG)</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cc">
             <div class="card-id">C5</div>
-            <div class="card-title">Deck Assembly</div>
-            <div class="card-meta">✦ Strategist + Designer · D10–D11</div>
-            <div class="card-outputs">→ 20-30 slides: Context → Findings → Plan → Execution</div>
+            <div class="card-title">
+                <span data-lang-en>Deck Assembly</span>
+                <span data-lang-ru>Сборка презентации</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist + Designer · D10–D11</span>
+                <span data-lang-ru>✦ Стратег + Дизайнер · D10–D11</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ 20-30 slides: Context → Findings → Plan → Execution</span>
+                <span data-lang-ru>→ 20-30 слайдов: Контекст → Находки → План → Исполнение</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cc">
             <div class="card-id">C6</div>
-            <div class="card-title">Tracker Population</div>
-            <div class="card-meta">✦ PM · D11–D12</div>
-            <div class="card-outputs">→ All tasks: Backlog + This Week + By Owner</div>
+            <div class="card-title">
+                <span data-lang-en>Tracker Population</span>
+                <span data-lang-ru>Наполнение трекера</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · D11–D12</span>
+                <span data-lang-ru>✦ PM · D11–D12</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ All tasks: Backlog + This Week + By Owner</span>
+                <span data-lang-ru>→ Все задачи: Бэклог + На этой неделе + По ответственным</span>
+            </div>
         </div>
     </div>
 
     <!-- ARROW C → D -->
-    <div class="arrow-col">
-        <div class="arrow-main">⟹</div>
-    </div>
+    <div class="arrow-col"><div class="arrow-main">⟹</div></div>
 
     <!-- ═══ PHASE D ═══ -->
     <div class="phase-col">
-        <div class="phase-header pd">🅳 Phase D<small>Finalization · D13–D15</small></div>
+        <div class="phase-header pd">
+            🅳 <span data-lang-en>Phase D</span><span data-lang-ru>Фаза D</span>
+            <small><span data-lang-en>Finalization · D13–D15</span><span data-lang-ru>Финализация · D13–D15</span></small>
+        </div>
 
         <div class="card cd">
             <div class="card-id">D1</div>
-            <div class="card-title">QA & Proofread</div>
-            <div class="card-meta">✦ PM + Strategist · D13</div>
+            <div class="card-title">
+                <span data-lang-en>QA & Proofread</span>
+                <span data-lang-ru>QA и вычитка</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM + Strategist · D13</span>
+                <span data-lang-ru>✦ PM + Стратег · D13</span>
+            </div>
             <div class="card-outputs">
-                → 27-item checklist complete<br>
-                → Deck v2 (QA'd)
+                <span data-lang-en>→ 27-item checklist complete · Deck v2 (QA'd)</span>
+                <span data-lang-ru>→ Чеклист из 27 пунктов пройден · Презентация v2 (после QA)</span>
                 <br><span class="dep-badge">← C5</span><span class="dep-badge">← C6</span>
             </div>
         </div>
@@ -625,44 +816,81 @@
 
         <div class="card cd">
             <div class="card-id">D2</div>
-            <div class="card-title">Pre-read Package</div>
-            <div class="card-meta">✦ PM · D13</div>
-            <div class="card-outputs">→ Loom 7-10 min + Deck v2 + Tracker + INDEX shared</div>
+            <div class="card-title">
+                <span data-lang-en>Pre-read Package</span>
+                <span data-lang-ru>Пакет для предварительного ознакомления</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ PM · D13</span>
+                <span data-lang-ru>✦ PM · D13</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Loom 7-10 min + Deck v2 + Tracker + INDEX shared</span>
+                <span data-lang-ru>→ Loom 7-10 мин + Презентация v2 + Трекер + INDEX отправлены</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cd">
             <div class="card-id">D3</div>
-            <div class="card-title">Final Walkthrough</div>
-            <div class="card-meta">✦ Strategist · D14</div>
-            <div class="card-outputs">→ Loom 12-15 min OR call 60 min</div>
+            <div class="card-title">
+                <span data-lang-en>Final Walkthrough</span>
+                <span data-lang-ru>Финальный разбор</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist · D14</span>
+                <span data-lang-ru>✦ Стратег · D14</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Loom 12-15 min OR call 60 min</span>
+                <span data-lang-ru>→ Loom 12-15 мин ИЛИ звонок 60 мин</span>
+            </div>
         </div>
         <div class="inner-arrow">↓</div>
 
         <div class="card cd">
             <div class="card-id">D4</div>
-            <div class="card-title">Hand-off + T2 Bridge</div>
-            <div class="card-meta">✦ Strategist + PM · D15</div>
-            <div class="card-outputs">→ Final Package + INDEX + T2 options</div>
+            <div class="card-title">
+                <span data-lang-en>Hand-off + T2 Bridge</span>
+                <span data-lang-ru>Передача + Мост T2</span>
+            </div>
+            <div class="card-meta">
+                <span data-lang-en>✦ Strategist + PM · D15</span>
+                <span data-lang-ru>✦ Стратег + PM · D15</span>
+            </div>
+            <div class="card-outputs">
+                <span data-lang-en>→ Final Package + INDEX + T2 options</span>
+                <span data-lang-ru>→ Финальный пакет + INDEX + варианты T2</span>
+            </div>
         </div>
     </div>
 
     <!-- ARROW D → FINAL -->
-    <div class="arrow-col">
-        <div class="arrow-main">⟹</div>
-    </div>
+    <div class="arrow-col"><div class="arrow-main">⟹</div></div>
 
     <!-- ═══ FINAL PACKAGE + T2 ═══ -->
     <div>
         <div class="final-pkg">
             <div class="pkg-icon">📦</div>
-            <div class="pkg-title">Final Package</div>
+            <div class="pkg-title">
+                <span data-lang-en>Final Package</span>
+                <span data-lang-ru>Финальный пакет</span>
+            </div>
             <div class="pkg-items">
-                Deck vFinal<br>
-                Funnel Map (PDF/PNG)<br>
-                Action Tracker<br>
-                Walkthrough Recording<br>
-                INDEX (single entry point)
+                <span data-lang-en>
+                    Deck vFinal<br>
+                    Funnel Map (PDF/PNG)<br>
+                    Action Tracker<br>
+                    Walkthrough Recording<br>
+                    INDEX (single entry point)
+                </span>
+                <span data-lang-ru>
+                    Презентация vFinal<br>
+                    Карта воронки (PDF/PNG)<br>
+                    Трекер задач<br>
+                    Запись разбора<br>
+                    INDEX (единая точка входа)
+                </span>
             </div>
         </div>
 
@@ -671,10 +899,30 @@
         </div>
 
         <div class="t2-section">
-            <div class="t2-header">🔮 T2 Bridge</div>
-            <div class="t2-opt">Self-Execute<br><span style="font-size:10px;color:#888;">Client uses Tracker</span></div>
-            <div class="t2-opt">Implementation<br><span style="font-size:10px;color:#888;">WF executes plan</span></div>
-            <div class="t2-opt">Advisory<br><span style="font-size:10px;color:#888;">Ongoing support</span></div>
+            <div class="t2-header">
+                🔮 <span data-lang-en>T2 Bridge</span><span data-lang-ru>Мост T2</span>
+            </div>
+            <div class="t2-opt">
+                <span data-lang-en>Self-Execute</span><span data-lang-ru>Самостоятельно</span>
+                <br><span style="font-size:10px;color:#888;">
+                    <span data-lang-en>Client uses Tracker</span>
+                    <span data-lang-ru>Клиент работает по трекеру</span>
+                </span>
+            </div>
+            <div class="t2-opt">
+                <span data-lang-en>Implementation</span><span data-lang-ru>Внедрение</span>
+                <br><span style="font-size:10px;color:#888;">
+                    <span data-lang-en>WF executes plan</span>
+                    <span data-lang-ru>WF реализует план</span>
+                </span>
+            </div>
+            <div class="t2-opt">
+                <span data-lang-en>Advisory</span><span data-lang-ru>Консалтинг</span>
+                <br><span style="font-size:10px;color:#888;">
+                    <span data-lang-en>Ongoing support</span>
+                    <span data-lang-ru>Постоянная поддержка</span>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -682,63 +930,128 @@
 
 <!-- LEGEND -->
 <div class="legend">
-    <h3>Legend</h3>
+    <h3><span data-lang-en>Legend</span><span data-lang-ru>Легенда</span></h3>
     <div class="legend-grid">
         <div class="legend-item">
             <div class="legend-swatch" style="background:#1e3a5f; border:1px solid #2d5a8f;"></div>
-            Phase A · Onboarding (D0–D1)
+            <span data-lang-en>Phase A · Onboarding (D0–D1)</span>
+            <span data-lang-ru>Фаза A · Онбординг (D0–D1)</span>
         </div>
         <div class="legend-item">
             <div class="legend-swatch" style="background:#2d1b4e; border:1px solid #4a2d7a;"></div>
-            Phase B · Discovery (D2–D7)
+            <span data-lang-en>Phase B · Discovery (D2–D7)</span>
+            <span data-lang-ru>Фаза B · Диагностика (D2–D7)</span>
         </div>
         <div class="legend-item">
             <div class="legend-swatch" style="background:#1b4332; border:1px solid #2d6b4f;"></div>
-            Phase C · Plan Build (D8–D12)
+            <span data-lang-en>Phase C · Plan Build (D8–D12)</span>
+            <span data-lang-ru>Фаза C · Стратегия и план (D8–D12)</span>
         </div>
         <div class="legend-item">
             <div class="legend-swatch" style="background:#4a1d1d; border:1px solid #6b2d2d;"></div>
-            Phase D · Finalization (D13–D15)
+            <span data-lang-en>Phase D · Finalization (D13–D15)</span>
+            <span data-lang-ru>Фаза D · Финализация (D13–D15)</span>
         </div>
         <div class="legend-item">
             <div class="legend-swatch" style="background:rgba(251,191,36,0.15); border:1px solid rgba(251,191,36,0.4);"></div>
-            ⚑ Gate / Review checkpoint
+            <span data-lang-en>⚑ Gate / Review checkpoint</span>
+            <span data-lang-ru>⚑ Контрольная точка / Ревью</span>
         </div>
         <div class="legend-item">
             <div class="legend-swatch" style="background:#064e3b; border:1px solid #34d399;"></div>
-            📦 Final deliverable
+            <span data-lang-en>📦 Final deliverable</span>
+            <span data-lang-ru>📦 Финальный результат</span>
         </div>
         <div class="legend-item" style="grid-column: span 2;">
             <span class="dep-badge" style="font-size:11px;">← B5</span>
-            Cross-phase dependency (hover card to see)
+            <span data-lang-en>Cross-phase dependency (hover card to see)</span>
+            <span data-lang-ru>Кросс-фазная зависимость (наведите на карточку)</span>
         </div>
     </div>
 </div>
 
 <!-- CROSS-PHASE DEPENDENCIES TABLE -->
 <div class="deps-table">
-    <h3>Cross-Phase Dependencies</h3>
+    <h3>
+        <span data-lang-en>Cross-Phase Dependencies</span>
+        <span data-lang-ru>Кросс-фазные зависимости</span>
+    </h3>
     <table>
         <thead>
-            <tr><th>From</th><th>To</th><th>What's Passed</th></tr>
+            <tr>
+                <th><span data-lang-en>From</span><span data-lang-ru>Откуда</span></th>
+                <th><span data-lang-en>To</span><span data-lang-ru>Куда</span></th>
+                <th><span data-lang-en>What's Passed</span><span data-lang-ru>Что передаётся</span></th>
+            </tr>
         </thead>
         <tbody>
-            <tr><td class="from">A4 Brief</td><td class="to">B0 Gate</td><td>Brief + access status → entry check</td></tr>
-            <tr><td class="from">B1 Quick Scan</td><td class="to">B3 / B4 / B5</td><td>Metrics + findings → parallel analysis</td></tr>
-            <tr><td class="from">B5 Leak Map</td><td class="to">C1 Root Cause</td><td>Leak records + quick wins</td></tr>
-            <tr><td class="from">B6 Unit Econ</td><td class="to">C1 Root Cause</td><td>Lever model + 3 scenarios</td></tr>
-            <tr><td class="from">B3 Competitors</td><td class="to">C2 Options</td><td>Competitor gaps → option framing</td></tr>
-            <tr><td class="from">B4 Barriers</td><td class="to">C2 Options</td><td>Top-5 barriers → initiative design</td></tr>
-            <tr><td class="from">C3 Initiatives</td><td class="to">C4 / C5 / C6</td><td>Cards → Funnel + Deck + Tracker (parallel)</td></tr>
-            <tr><td class="from">C5 Deck v1</td><td class="to">D1 QA</td><td>All slides → 27-item proofread</td></tr>
-            <tr><td class="from">C6 Tracker</td><td class="to">D1 QA</td><td>All tasks → reconciliation check</td></tr>
+            <tr>
+                <td class="from">A4 <span data-lang-en>Brief</span><span data-lang-ru>Бриф</span></td>
+                <td class="to">B0 <span data-lang-en>Gate</span><span data-lang-ru>Контроль</span></td>
+                <td><span data-lang-en>Brief + access status → entry check</span><span data-lang-ru>Бриф + статус доступов → входной контроль</span></td>
+            </tr>
+            <tr>
+                <td class="from">B1 <span data-lang-en>Quick Scan</span><span data-lang-ru>Экспресс-анализ</span></td>
+                <td class="to">B3 / B4 / B5</td>
+                <td><span data-lang-en>Metrics + findings → parallel analysis</span><span data-lang-ru>Метрики + находки → параллельный анализ</span></td>
+            </tr>
+            <tr>
+                <td class="from">B5 <span data-lang-en>Leak Map</span><span data-lang-ru>Карта утечек</span></td>
+                <td class="to">C1 <span data-lang-en>Root Cause</span><span data-lang-ru>Корневые причины</span></td>
+                <td><span data-lang-en>Leak records + quick wins</span><span data-lang-ru>Записи утечек + быстрые победы</span></td>
+            </tr>
+            <tr>
+                <td class="from">B6 <span data-lang-en>Unit Econ</span><span data-lang-ru>Юнит-экономика</span></td>
+                <td class="to">C1 <span data-lang-en>Root Cause</span><span data-lang-ru>Корневые причины</span></td>
+                <td><span data-lang-en>Lever model + 3 scenarios</span><span data-lang-ru>Модель рычагов + 3 сценария</span></td>
+            </tr>
+            <tr>
+                <td class="from">B3 <span data-lang-en>Competitors</span><span data-lang-ru>Конкуренты</span></td>
+                <td class="to">C2 <span data-lang-en>Options</span><span data-lang-ru>Опции</span></td>
+                <td><span data-lang-en>Competitor gaps → option framing</span><span data-lang-ru>Пробелы конкурентов → формирование вариантов</span></td>
+            </tr>
+            <tr>
+                <td class="from">B4 <span data-lang-en>Barriers</span><span data-lang-ru>Барьеры</span></td>
+                <td class="to">C2 <span data-lang-en>Options</span><span data-lang-ru>Опции</span></td>
+                <td><span data-lang-en>Top-5 barriers → initiative design</span><span data-lang-ru>Топ-5 барьеров → дизайн инициатив</span></td>
+            </tr>
+            <tr>
+                <td class="from">C3 <span data-lang-en>Initiatives</span><span data-lang-ru>Инициативы</span></td>
+                <td class="to">C4 / C5 / C6</td>
+                <td><span data-lang-en>Cards → Funnel + Deck + Tracker (parallel)</span><span data-lang-ru>Карточки → Воронка + Презентация + Трекер (параллельно)</span></td>
+            </tr>
+            <tr>
+                <td class="from">C5 <span data-lang-en>Deck v1</span><span data-lang-ru>Презентация v1</span></td>
+                <td class="to">D1 QA</td>
+                <td><span data-lang-en>All slides → 27-item proofread</span><span data-lang-ru>Все слайды → вычитка по 27 пунктам</span></td>
+            </tr>
+            <tr>
+                <td class="from">C6 <span data-lang-en>Tracker</span><span data-lang-ru>Трекер</span></td>
+                <td class="to">D1 QA</td>
+                <td><span data-lang-en>All tasks → reconciliation check</span><span data-lang-ru>Все задачи → проверка согласованности</span></td>
+            </tr>
         </tbody>
     </table>
 </div>
 
 <footer>
-    The Catalyst — Wonderflow · Operational Flowchart · 2026
+    The Catalyst — Wonderflow ·
+    <span data-lang-en>Operational Flowchart</span>
+    <span data-lang-ru>Операционная карта</span>
+    · 2026
 </footer>
+
+<script>
+function setLang(lang) {
+    document.body.classList.toggle('lang-ru', lang === 'ru');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+    localStorage.setItem('catalyst-lang', lang);
+}
+// Restore saved lang
+const saved = localStorage.getItem('catalyst-lang');
+if (saved) setLang(saved);
+</script>
 
 </body>
 </html>
